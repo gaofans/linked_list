@@ -27,15 +27,15 @@ impl <'a,T> Iterator for Iter<'a,T>{
         })
     }
 }
-pub struct IterMut<'a,T>{
-    next:&'a mut Node<T>
+pub struct IterMut<'a,T> {
+    next:Option<&'a mut Node<T>>
 }
-impl <'a,T > Iterator for IterMut<'a,T>{
+impl <'a,T> Iterator for IterMut<'a,T>{
     type Item = &'a mut T;
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.next().take().map(|node|{
-            self.next = node.next().as_deref_mut();
+        self.next.take().map(|node|{
+            self.next = node.next.as_deref_mut();
             &mut node.value
         })
     }
@@ -69,8 +69,9 @@ impl <T> List<T> {
     pub fn iter(&self) -> Iter<T>{
         Iter{next:self.head.as_deref()}
     }
+
     pub fn iter_mut(&mut self) -> IterMut<T>{
-        IterMut{next:self.head.task().as_deref_mut()}
+        IterMut{next:self.head.as_deref_mut()}
     }
 
 }

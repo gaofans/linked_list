@@ -61,4 +61,18 @@ mod tests{
             println!("{}",value)
         }
     }
+    #[test]
+    fn test_iter_mut(){
+        let mut list = List::new();
+        list.push(1);
+        list.push(2);
+        list.push(3);
+        list.push(4);
+        for value in list.iter_mut() {
+            *value = *value + 1;
+        }
+        for value in list.iter() {
+            println!("{}",value)
+        }
+    }
 }
