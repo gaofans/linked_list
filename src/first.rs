@@ -33,3 +33,13 @@ impl List{
         }
     }
 }
+
+impl Drop for List{
+    fn drop(&mut self) {
+        let mut current_link = mem::replace(&mut self.head, Link::Empty);
+        while let Link::More(mut node) = current_link{
+            println!("drop {}",node.value);
+            current_link = mem::replace(&mut node.next,Link::Empty);
+        }
+    }
+}
